@@ -10,16 +10,16 @@ font-family: 'League Spartan', sans-serif; */
 :root {
     /* tons de cores de fundo do site  */
     --color-fundoblack: #000; /*para o fundo do header/rodapé*/ 
-    --color-fundocinza1: #333; /*fundo do site*/
+    --color-cinza1: #333; /*fundo do site*/
     --color-fundocinza2: #666;
-    --color-fundocinza3: #999;
-    --color-fundowhite: #fff;
+    --color-fontecinza3: #999;
+    --color-white: #fff;
     
     --color-orange: #FF8833; /*cor do botão*/
 }
 
 body {
-    background-color: var(--color-fundocinza1);
+    background-color: var(--color-cinza1);
 }
 
 h1, h2, h3 {

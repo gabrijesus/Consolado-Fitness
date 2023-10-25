@@ -13,7 +13,7 @@ font-family: 'League Spartan', sans-serif; */
     --color-cinza1: #333; /*fundo do site*/
     --color-fundocinza2: #666;
     --color-fontecinza3: #999;
-    --color-white: #fff;
+    --color-fontwhite: #fff;
     
     --color-orange: #FF8833; /*cor do botão*/
 }
@@ -23,37 +23,87 @@ body {
 }
 
 h1, h2, h3 {
-    color: var(--color-fundowhite);
+    color: var(--color-fontwhite);
     font-family: 'League Spartan', sans-serif;
 }
 
-p, ul, input, label, button {
+p, ul, input, label, button, a {
     font-family: 'Lato', sans-serif;
 }
 
-
-
-@media screen and (min-width: 768px){
-    .menu {
-        background-color: var(--color-fundoblack);
-        width: 100%;
-        height: 10vh;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
-    
-    .logo {
-        width: 30vw;
-    }
-    
-    .menu a {
-        font-size: 30px;
-        color: var(--color-fundowhite);
-        font-family: 'League Spartan', sans-serif;
-        text-decoration: none;
-    }
+.navegacao{
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 6rem;
 }
-@media screen and (min-width: 1024px){
-    
+
+.logo {
+    width: auto;
+    height: auto;
+}
+
+.nav_desktop {
+    display: flex;
+    align-items: center;
+}
+
+.nav_desktop ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.nav {
+    margin: 0 15px;
+}
+
+.link {
+    text-decoration: none;
+    font-size: 1.15rem;
+    color: #fff;
+    font-weight: 400;
+}
+
+.icon_menu {
+    display: none;
+}
+
+.mobile {
+    display: none;
+}
+
+@media screen and (max-width: 730px) {
+    .navegacao {
+        padding: 1.5rem 4rem;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .icon_menu {
+        display: block;
+    }
+
+    .icon_menu button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .mobile ul {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 1rem;
+    }
+
+    .mobile .nav {
+        display: block;
+        padding-top: 1.2rem;
+    }
+
+    .open {
+        display: block;
+    }
 }

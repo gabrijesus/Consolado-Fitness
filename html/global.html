@@ -1,59 +1,65 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/global.css">
     <title>Document</title>
 </head>
+
 <body>
 
-    <!-- versao mobile  -->
-    <nav>
+    <nav class="navegacao">
 
-        <div class="navegacao_mobile">
-            <div class="logo">
-                <img src="../imagens/logo-mobile.png" alt="logo-mobile">
-            </div>
-            <div class="rede_mobile">
-                <ul>
-                    <li class="nav_mobile"><a href="#" class="textnav">Treino</a></li>
-                    <li class="nav_mobile"><a href="#" class="textnav">Treino</a></li>
-                    <li class="nav_mobile"><a href="#" class="textnav">Treino</a></li>
-                    <li class="nav_mobile"><a href="#" class="textnav">Treino</a></li>
-                </ul>
-            </div>
-            
-            <div class="botao">
-                <button> <img src="" alt=""></button>
-            </div>
+        <div class="logo">
+            <!-- colocar um picture  -->
+            <img src="../imagens/logo-mobile.png" alt="logo-mobile">
+
         </div>
 
-        <div class="navegacao_desktop">
-            <div class="logo"><a href=""><img src="../imagens/logo-tablet.png" alt="logo-tablet"></a></div>
-            <div class="rede_tablet">
-                
-                <img src="../imagens/logo-tablet.png" alt="logo-tablet">
-                
-                <ul>
-                    <li class="nav_mobile"><a href="#" class="textnav">Treino</a></li>
-                    <li class="nav_mobile"><a href="#" class="textnav">Treino</a></li>
-                    <li class="nav_mobile"><a href="#" class="textnav">Treino</a></li>
-                    <li class="nav_mobile"><a href="#" class="textnav">Treino</a></li>
-                </ul>
-            </div>
+        <div class="nav_desktop">
+
+            <ul>
+                <li class="nav"><a href="#" class="link">treino</a></li>
+                <li class="nav"><a href="#" class="link">treino</a></li>
+                <li class="nav"><a href="#" class="link">treino</a></li>
+                <li class="nav"><a href="#" class="link">treino</a></li>
+            </ul>
+
+        </div>
+
+        <div class="icon_menu">
+
+            <button onclick="menuResponsivo()"><img class="icon_botao" src="../imagens/menu02.png" alt="menu"></button>
+
         </div>
     </nav>
 
-    <!-- fim versao mobile  -->
-    
-    <!-- <nav class="menu">
-        <a href="#">Treino</a>
-        <a href="#">Biblioteca</a>
-        <img src="" alt="">
-        <a href="#">Contato</a>
-        <a href="#">Perfil</a>
-    </nav> -->
+    <div class="mobile">
+
+        <ul>
+            <li class="nav"><a href="#" class="link">treino</a></li>
+            <li class="nav"><a href="#" class="link">treino</a></li>
+            <li class="nav"><a href="#" class="link">treino</a></li>
+            <li class="nav"><a href="#" class="link">treino</a></li>
+        </ul>
+
+    </div>
+
+    <script>
+        function menuResponsivo() {
+            var mobile = document.querySelector('.mobile');
+                if (mobile.classList.contains('open')) {
+                    mobile.classList.remove('open');
+                    document.querySelector('.icon_botao').src = "../imagens/menu02.png"
+                } else {
+                    mobile.classList.add('open');
+                    document.querySelector('.icon_botao').src = "../imagens/fechar.png"
+                }
+        }
+    </script>
 
 </body>
+
 </html>

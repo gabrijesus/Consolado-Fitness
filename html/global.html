@@ -10,10 +10,11 @@
 
 <body>
 
+    <!-- menu de navegação  -->
     <nav class="navegacao">
 
         <div class="logo">
-            <!-- colocar um picture  -->
+            
             <img src="../imagens/logo-mobile.png" alt="logo-mobile">
 
         </div>
@@ -21,10 +22,10 @@
         <div class="nav_desktop">
 
             <ul>
-                <li class="nav"><a href="#" class="link">treino</a></li>
-                <li class="nav"><a href="#" class="link">treino</a></li>
-                <li class="nav"><a href="#" class="link">treino</a></li>
-                <li class="nav"><a href="#" class="link">treino</a></li>
+                <li class="nav"><a href="#" class="link">Treino</a></li>
+                <li class="nav"><a href="#" class="link">Biblioteca</a></li>
+                <li class="nav"><a href="#" class="link">Contato</a></li>
+                <li class="nav"><a href="#" class="link">Perfil</a></li>
             </ul>
 
         </div>
@@ -39,27 +40,17 @@
     <div class="mobile">
 
         <ul>
-            <li class="nav"><a href="#" class="link">treino</a></li>
-            <li class="nav"><a href="#" class="link">treino</a></li>
-            <li class="nav"><a href="#" class="link">treino</a></li>
-            <li class="nav"><a href="#" class="link">treino</a></li>
+            <li class="nav"><a href="#" class="link">Treino</a></li>
+            <li class="nav"><a href="#" class="link">Biblioteca</a></li>
+            <li class="nav"><a href="#" class="link">Contato</a></li>
+            <li class="nav"><a href="#" class="link">Perfil</a></li>
         </ul>
 
     </div>
 
-    <script>
-        function menuResponsivo() {
-            var mobile = document.querySelector('.mobile');
-                if (mobile.classList.contains('open')) {
-                    mobile.classList.remove('open');
-                    document.querySelector('.icon_botao').src = "../imagens/menu02.png"
-                } else {
-                    mobile.classList.add('open');
-                    document.querySelector('.icon_botao').src = "../imagens/fechar.png"
-                }
-        }
-    </script>
+    <script src="../js/global.js"></script>
 
+    <!-- fim do menu navegacao  -->
 </body>
 
 </html>

@@ -23,12 +23,12 @@ body {
     background-color: var(--color-cinza1);
 }
 
-h1, h2, h3 {
+h1, h2, h3, input {
     color: var(--color-fontwhite);
     font-family: 'League Spartan', sans-serif;
 }
 
-p, ul, input, label, button, a {
+p, ul, label, button, a {
     font-family: 'Lato', sans-serif;
     color: var(--color-fontwhite);
 }

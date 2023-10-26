@@ -1,0 +1,56 @@
+.area_contato {
+    width: 90vw;
+    margin: 0 1.5rem;
+}
+
+h1 {
+    text-align: center;
+    font-size: 33px;
+    margin: 30px 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form .caixa_mensagem {
+    display: flex;
+    flex-direction: column;
+}
+
+form .caixa_mensagem label {
+    font-size: 20px;
+}
+
+input {
+    width: 85vw;
+    border-radius: 4px;
+    height: 34px;
+    margin: 8px 0;
+}
+
+textarea {
+    width: 85vw;
+    border-radius: 4px;
+    margin: 8px 0;
+}
+
+.enviar {
+    background-color: var(--color-orange);
+    font-size: 18px;
+}
+
+.img_desktop {
+    display: none;
+}
+
+@media screen and (min-width:425px) {
+    .area_contato {
+        margin: 0 1.7rem;
+    }
+}
+
+@media screen and (min-width:768px) {
+    
+}

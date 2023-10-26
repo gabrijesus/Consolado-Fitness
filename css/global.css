@@ -30,6 +30,7 @@ h1, h2, h3 {
 
 p, ul, input, label, button, a {
     font-family: 'Lato', sans-serif;
+    color: var(--color-fontwhite);
 }
 
 .navegacao{

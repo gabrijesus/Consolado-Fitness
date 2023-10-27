@@ -24,21 +24,31 @@ form .caixa_mensagem label {
 }
 
 input {
-    width: 85vw;
+    width: 80vw;
     border-radius: 4px;
     height: 34px;
     margin: 8px 0;
+    padding: 8px;
+}
+
+.caixa_mensagem input {
+    color: black;
 }
 
 textarea {
-    width: 85vw;
+    width: 80vw;
     border-radius: 4px;
     margin: 8px 0;
+    padding: 8px;
 }
+
 
 .enviar {
     background-color: var(--color-orange);
     font-size: 18px;
+    color: var(--color-fontwhite);
+    width: 85vw;
+    padding: 0;
 }
 
 .img_desktop {
@@ -52,5 +62,42 @@ textarea {
 }
 
 @media screen and (min-width:768px) {
-    
+    .area_contato {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+        width: 100vw;
+    }
+
+    h1 {
+        text-align: left;
+    }
+
+    input, textarea {
+        width: auto;
+    }
+}
+
+@media screen and (min-width:999px) {
+    .area_contato {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    input, textarea, .enviar {
+        width: auto;
+    }
+
+    form {
+        margin: 0 2rem;
+    }
+
+    .img_desktop {
+        display: block;
+        width: 52vw;
+        height: 100vh;
+    }
 }

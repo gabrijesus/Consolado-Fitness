@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/cadastro.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="area_cadastro">
+        <form action="" method="post">
+
+            <h1>Crie sua conta</h1>
+
+            <div class="info_pessoal">
+                <label for="">Nome</label>
+                <input type="text">
+            </div>
+
+            <div class="info_pessoal">
+                <label for="">E-mail</label>
+                <input type="email">
+            </div>
+            
+            <div class="info_pessoal">
+                <label for="">Data de nascimento</label>
+                <input type="date">
+            </div>
+
+            <div class="info_pessoal escolha">
+                
+                <span>
+
+                    <label for="nivel_treino">Nível de treino</label>
+                    
+                    <select name="nivel_treino" id="nivel_treino">
+                        <option value="iniciante">Iniciante</option>
+                        <option value="intermediario">Intermediario</option>
+                        <option value="avancado">Avançado</option>
+                    </select>
+
+                </span>
+                <span>
+
+                    <label for="escolha_treino">Preferência de Treino</label>
+
+                    <select name="escolha_treino" id="escolha_treino">
+                        <option value="academia">Academia</option>
+                        <option value="em_casa">Em casa</option>
+                    </select>
+
+                </span>
+
+            </div>
+
+            <div class="info_pessoal">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha">
+            </div>
+
+            <input type="button" value="Cadastrar" class="botao_cadastro">
+
+        </form>
+
+        <img src="../imagens/cadastro-imagem.png" alt="cadastro" class="img_cadastro">
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de treino | Consulado Fitness</title>
+    <link rel="stylesheet" href="../css/geraTreino.css">
+    <link rel="stylesheet" href="../css/global.css">
+</head>
+
+<body>
+    <!-- menu de navegação  -->
+    <nav class="navegacao">
+
+        <div class="logo">
+
+            <img src="../imagens/logo-mobile.png" alt="logo-mobile">
+
+        </div>
+
+        <div class="nav_desktop">
+
+            <ul>
+                <li class="nav"><a href="#" class="link">Treino</a></li>
+                <li class="nav"><a href="#" class="link">Biblioteca</a></li>
+                <li class="nav"><a href="#" class="link">Contato</a></li>
+                <li class="nav"><a href="#" class="link">Perfil</a></li>
+            </ul>
+
+        </div>
+
+        <div class="icon_menu">
+
+            <button onclick="menuResponsivo()"><img class="icon_botao" src="../imagens/menu02.png" alt="menu"></button>
+
+        </div>
+    </nav>
+
+    <div class="mobile">
+
+        <ul>
+            <li class="nav"><a href="#" class="link">Treino</a></li>
+            <li class="nav"><a href="#" class="link">Biblioteca</a></li>
+            <li class="nav"><a href="#" class="link">Contato</a></li>
+            <li class="nav"><a href="#" class="link">Perfil</a></li>
+        </ul>
+
+    </div>
+
+    <main>
+        <form action="">
+            <div class="input-container">
+                <div class="input-item">
+                    <label for="qtdTreinos">Quantas vezes você treina por semana?</label>
+                    <select name="qtdTreinos" id="qtdTreinos">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </div>
+                <div class="input-item">
+                    <label for="prefTreino">Preferência de treino:</label>
+                    <select name="prefTreino" id="prefTreino">
+                        <option value="musculacao">Musculação</option>
+                        <option value="treinoEmCasa">Treino em casa</option>
+                    </select>
+                </div>
+                <div class="input-item">
+                    <label for="nivelTreino">Nível de treino:</label>
+                    <select name="nivelTreino" id="nivelTreino">
+                        <option value="iniciante">Iniciante</option>
+                        <option value="intermediario">Intermediário</option>
+                        <option value="avancado">Avançado</option>
+                    </select>
+                </div>
+                <div class="input-item">
+                    <button class="submit-btn" type="submit">Gerar Treino</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3">A (Peito, Ombros e Tríceps)</th>
+                        <th colspan="3">B (Costas, Ombros e Bíceps)</th>
+                        <th colspan="3">C (Pernas)</th>
+                    </tr>
+                    <tr>
+                        <th>Exercício</th>
+                        <th>Série</th>
+                        <th>Repetições</th>
+                        <th>Exercício</th>
+                        <th>Série</th>
+                        <th>Repetições</th>
+                        <th>Exercício</th>
+                        <th>Série</th>
+                        <th>Repetições</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr align="center">
+                        <td>Supino reto</td>
+                        <td>4</td>
+                        <td>12</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+
+</html>

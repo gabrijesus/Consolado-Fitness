@@ -1,0 +1,13 @@
+* {
+    font-family: "League Spartan";
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    width: 90vw;
+    background: #EFEFEF;
+}

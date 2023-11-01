@@ -27,11 +27,11 @@ form {
 }
 
 #qtdTreinos {
-    width: 500px;
+    width: 35vw;
 }
 
 select {
-    width: 350px;
+    width: 20vw;
     height: 40px;
     border-radius: 10px;
     font-size: 16px;
@@ -39,7 +39,7 @@ select {
 }
 
 .submit-btn {
-    width: 500px;
+    width: 35vw;
     margin-top: 1rem;
     border-radius: 10px;
     height: 40px;
@@ -61,10 +61,12 @@ select {
     display: flex;
     justify-content: center;
     margin-top: 2rem;
+    width: 90vw;
 }
 
 table {
-    width: 90vw;
+    width: 100%;
+    overflow: auto;
     background: #EFEFEF;
     border-radius: 10px;
     border: 2px solid #000;
@@ -74,5 +76,6 @@ table {
 th, td {
     border: 2px solid black;
     border-radius: 10px;
-    padding: .5rem;
+    padding: 1rem;
+    font-size: 18px;
 }

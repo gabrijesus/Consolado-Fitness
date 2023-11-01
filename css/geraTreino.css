@@ -58,15 +58,16 @@ select {
 }
 
 .table-container {
-    display: flex;
-    justify-content: center;
     margin-top: 2rem;
     width: 90vw;
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 table {
     width: 100%;
-    overflow: auto;
+    position: relative;
     background: #EFEFEF;
     border-radius: 10px;
     border: 2px solid #000;
@@ -78,4 +79,18 @@ th, td {
     border-radius: 10px;
     padding: 1rem;
     font-size: 18px;
+}
+
+@media screen and (max-width: 768px) {
+    .input-container {
+        flex-direction: column;
+    }
+
+    select {
+        width: 100% !important;
+    }
+
+    .submit-btn {
+        width: 100%;
+    }
 }

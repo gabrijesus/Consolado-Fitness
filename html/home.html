@@ -5,19 +5,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/home.css">
 </head>
 <body>
+
+    <!-- menu de navegação  -->
+    <nav class="navegacao">
+
+        <div class="logo">
+            
+            <img src="../imagens/logo-mobile.png" alt="logo-mobile">
+
+        </div>
+
+        <div class="nav_desktop">
+
+            <ul>
+                <li class="nav"><a href="#" class="link">Treino</a></li>
+                <li class="nav"><a href="#" class="link">Biblioteca</a></li>
+                <li class="nav"><a href="#" class="link">Contato</a></li>
+                <li class="nav"><a href="#" class="link">Perfil</a></li>
+            </ul>
+
+        </div>
+
+        <div class="icon_menu">
+
+            <button onclick="menuResponsivo()"><img class="icon_botao" src="../imagens/menu02.png" alt="menu"></button>
+
+        </div>
+    </nav>
+
+    <div class="mobile">
+
+        <ul>
+            <li class="nav"><a href="#" class="link">Treino</a></li>
+            <li class="nav"><a href="#" class="link">Biblioteca</a></li>
+            <li class="nav"><a href="#" class="link">Contato</a></li>
+            <li class="nav"><a href="#" class="link">Perfil</a></li>
+        </ul>
+
+    </div>
+
+    <script src="../js/global.js"></script>
+
+    <!-- fim do menu navegacao  -->
     
-    <img src="" alt="">
+    <img src="../imagens/pag-home.png" alt="home" class="img_Home">
 
-    <div>
-        <img src="" alt="">
+    <div class="home">
 
-        <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus cupiditate aliquam consectetur animi blanditiis, porro doloremque alias reiciendis saepe adipisci, similique et natus aspernatur optio voluptas commodi modi mollitia officiis.</h1>
+        <picture>
 
-        <div>
-            <a href=""></a>
-            <a href=""></a>
+            <source media="(max-width: 600px)" srcset="../imagens/logo_home_mobile.png">
+
+            <source media="(max-width: 1000px)" srcset="../imagens/logo_home_tablet.png">
+
+            <img src="../imagens/logo_home_desktop.png"  alt="desktop">
+        </picture>
+
+        <h1>Venha!</h1>
+        <h1>Construir seu corpo ideal</h1>
+
+        <div class="links">
+            <a href="cadastro.html">Faça seu cadastro</a>
+            <a href="#">Entre e bom treino</a>
         </div>
     </div>
 </body>

@@ -1,0 +1,31 @@
+.img_Home {
+    display: none;
+}
+
+.home {
+    margin: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: auto;
+    height: 88.3vh;
+}
+.home h1 {
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 40vh;
+}
+
+.links a {
+    text-decoration: none;
+    background-color: var(--color-orange);
+    margin: auto 0;
+    padding: 2rem;
+}

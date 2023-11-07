@@ -1,0 +1,74 @@
+.img_inicial img {
+    height: 92vh;
+    width: 100vw;
+    object-fit: cover;
+}
+
+.text_em_cima {
+    position: absolute;
+    z-index: 1;
+    margin: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 78vh;
+    text-align: center;
+}
+
+.text_em_cima h2 {
+    color: #FFAA33;
+    font-size: 30px;
+}
+
+.text_em_cima p {
+    font-size: 35px;
+    font-weight: bold;
+    height: auto;
+}
+
+.text_em_cima button {
+    background-color:var(--color-orange);
+    height: 10vh;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.plataforma_area {
+    margin: 2rem 1rem;
+}
+
+.plataforma_area h1 {
+    text-align: center;
+}
+
+.todas_plataforma {
+    margin: 20px 0;
+    display: grid;
+}
+
+.caixa {
+    background-color: #1E1E1E;
+    border-radius: 8px;
+    height: 18vh;
+    margin: .5rem ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.caixa img {
+    width: 35px;
+    margin-top: 5px;
+}
+
+.caixa h3 {
+    font-size: 21px;
+}
+
+.caixa p {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 10px;
+}

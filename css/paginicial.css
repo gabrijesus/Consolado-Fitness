@@ -42,20 +42,27 @@
     text-align: center;
 }
 
+/* container  */
 .todas_plataforma {
     margin: 20px 0;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
+/* item  */
 .caixa {
     background-color: #1E1E1E;
     border-radius: 8px;
     height: 18vh;
+    width: 30vh;
     margin: .5rem ;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    flex-basis: auto;
 }
 
 .caixa img {

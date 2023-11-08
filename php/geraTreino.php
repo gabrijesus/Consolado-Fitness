@@ -1,8 +1,4 @@
 <?php
-$preferencia_treino = $_POST["prefTreino"];
-$nivel_treino = $_POST["nivelTreino"];
-$treinos_semana = $_POST["qtdTreinos"];
-
 function selecionar_exercicios($preferencias_treino, $grupos_musculares, $quantidades)
 {
     global $exercicios;
@@ -21,12 +17,7 @@ function selecionar_exercicios($preferencias_treino, $grupos_musculares, $quanti
         $exercicios_selecionados = array_merge($exercicios_selecionados, array_slice($exercicios_filtrados, 0, $quantidade));
     }
 
-    return $exercicios_selecionados;
-}
-
-function gerar_tabela()
-{
-    return;
+    return $exercicios_selecionados;   
 }
 
 function gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana)
@@ -108,11 +99,17 @@ function gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana)
     // echo "<pre>";
     // var_dump($ficha_treino["divisao"]);
     // echo "</pre>";
-
-    return gerar_tabela($ficha_treino);
+    return $ficha_treino;
 }
 
-gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $preferencia_treino = $_POST["prefTreino"];
+    $nivel_treino = $_POST["nivelTreino"];
+    $treinos_semana = $_POST["qtdTreinos"];
+
+    $ficha_treino = gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana);
+    var_dump($ficha_treino);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -165,7 +162,7 @@ gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana);
     </div>
 
     <main>
-        <form action="">
+        <form action="" method="post">
             <div class="input-container">
                 <div class="input-item">
                     <label for="qtdTreinos">Quantas vezes você treina por semana?</label>
@@ -222,28 +219,25 @@ gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana);
                     </tr>
                 </thead>
                 <tbody>
-                    <tr align="center">
-                        <td>Supino reto</td>
-                        <td>4</td>
-                        <td>12</td>
-                        <td>Pulley frente</td>
-                        <td>4</td>
-                        <td>12</td>
-                        <td>Agachamento livre com barra</td>
-                        <td>4</td>
-                        <td>12</td>
-                    </tr>
-                    <tr align="center">
-                        <td>Crucifixo reto</td>
-                        <td>4</td>
-                        <td>12</td>
-                        <td>Pulley triângulo</td>
-                        <td>4</td>
-                        <td>12</td>
-                        <td>Leg press</td>
-                        <td>4</td>
-                        <td>12</td>
-                    </tr>
+                    <?php
+                    // Substitua os dados de exemplo pelos exercícios gerados dinamicamente
+                    if (isset($ficha_treino) && is_array($ficha_treino)) {
+                        foreach ($ficha_treino["divisao"]["A"] as $exercicio) {
+                            echo "<tr align='center'>";
+                            echo "<td>" . $exercicio["nome"] . "</td>";
+                            echo "<td>" . $exercicio["serie"] . "</td>";
+                            echo "<td>" . $exercicio["repeticao"] . "</td>";
+                            // Repita o mesmo padrão para as outras colunas
+                            echo "<td></td>";
+                            echo "<td></td>";
+                            echo "<td></td>";
+                            echo "<td></td>";
+                            echo "<td></td>";
+                            echo "<td></td>";
+                            echo "</tr>";
+                        }
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>

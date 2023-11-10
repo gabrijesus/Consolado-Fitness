@@ -1,5 +1,30 @@
 <?php
-function selecionar_exercicios($preferencias_treino, $grupos_musculares, $quantidades)
+include "conexao.php";
+
+$exercicios = [
+    ["nome" => "Supino", "grupo_muscular" => "Peito", "tipo" => "Musculação"],
+    ["nome" => "Agachamento", "grupo_muscular" => "Pernas", "tipo" => "Musculação"],
+    ["nome" => "Flexão de Braço", "grupo_muscular" => "Peito", "tipo" => "Exercício em Casa"],
+    ["nome" => "Prancha", "grupo_muscular" => "Abdômen", "tipo" => "Exercício em Casa"],
+    ["nome" => "Leg Press", "grupo_muscular" => "Pernas", "tipo" => "Musculação"],
+    ["nome" => "Burpees", "grupo_muscular" => "Corpo Inteiro", "tipo" => "Exercício em Casa"],
+    ["nome" => "Rosca Direta", "grupo_muscular" => "Braços", "tipo" => "Musculação"],
+    ["nome" => "Prancha Lateral", "grupo_muscular" => "Abdômen", "tipo" => "Exercício em Casa"],
+    ["nome" => "Supino Inclinado", "grupo_muscular" => "Peito", "tipo" => "Musculação"],
+    ["nome" => "Agachamento Búlgaro", "grupo_muscular" => "Pernas", "tipo" => "Musculação"],
+    ["nome" => "Abdominais", "grupo_muscular" => "Abdômen", "tipo" => "Exercício em Casa"],
+    ["nome" => "Puxada de Barra", "grupo_muscular" => "Costas", "tipo" => "Musculação"],
+    ["nome" => "Flexão de Braço Diamond", "grupo_muscular" => "Peito", "tipo" => "Exercício em Casa"],
+    ["nome" => "Desenvolvimento de Ombro", "grupo_muscular" => "Ombros", "tipo" => "Musculação"],
+    ["nome" => "Agachamento Frontal", "grupo_muscular" => "Pernas", "tipo" => "Musculação"],
+    ["nome" => "Prancha Superman", "grupo_muscular" => "Abdômen", "tipo" => "Exercício em Casa"],
+    ["nome" => "Rosca Martelo", "grupo_muscular" => "Braços", "tipo" => "Musculação"],
+    ["nome" => "Flexão de Braço Declinada", "grupo_muscular" => "Peito", "tipo" => "Exercício em Casa"],
+    ["nome" => "Barra Fixa", "grupo_muscular" => "Costas", "tipo" => "Musculação"],
+    ["nome" => "Agachamento Sumô", "grupo_muscular" => "Pernas", "tipo" => "Musculação"]
+];
+
+function selecionar_exercicios($preferencia_treino, $grupos_musculares, $quantidades)
 {
     global $exercicios;
 
@@ -7,17 +32,26 @@ function selecionar_exercicios($preferencias_treino, $grupos_musculares, $quanti
 
     // Para cada grupo muscular desejado, selecione a quantidade especificada
     foreach ($grupos_musculares as $grupo_muscular) {
-        // Filtra exercícios com base nas preferências de treino e grupo muscular
-        $exercicios_filtrados = array_filter($exercicios, function ($exercicio) use ($preferencias_treino, $grupo_muscular) {
-            return in_array($exercicio["tipo"], $preferencias_treino) && $exercicio["grupo_muscular"] === $grupo_muscular;
+        // Filtra exercícios com base na preferência de treino e grupo muscular
+        $exercicios_filtrados = array_filter($exercicios, function ($exercicio) use ($preferencia_treino, $grupo_muscular) {
+            return $exercicio["grupo_muscular"] === $grupo_muscular && $exercicio["tipo"] === $preferencia_treino;
         });
 
         // Limita a quantidade de exercícios com base na quantidade especificada
         $quantidade = $quantidades[$grupo_muscular];
-        $exercicios_selecionados = array_merge($exercicios_selecionados, array_slice($exercicios_filtrados, 0, $quantidade));
+
+        // Adiciona informações de série e repetição aos exercícios
+        foreach ($exercicios_filtrados as &$exercicio) {
+            $exercicio["serie"] = 3;  // Replace with the actual number of series
+            $exercicio["repeticao"] = 12;  // Replace with the actual number of repetitions
+        }
+
+        // Use the "+" operator to preserve keys
+        $exercicios_selecionados += array_slice($exercicios_filtrados, 0, $quantidade);
     }
 
-    return $exercicios_selecionados;   
+    var_dump($exercicios_selecionados);
+    return $exercicios_selecionados;
 }
 
 function gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana)
@@ -38,7 +72,7 @@ function gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana)
         case 3:
             if ($nivel_treino === "iniciante") {
                 $ficha_treino["divisao"] = ["Full-body"];
-                $ficha_treino["divisao"]["A"] = [];
+                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Ombros", "Braços", "Pernas", "Costas", "Abdômen"], ["Pernas" => 1, "Peito" => 1, "Abdômen" => 1, "Ombros" => 1, "Braços" => 1, "Costas" => 1]);;
             } else {
                 $ficha_treino["divisao"] = ["ABC"];
                 $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Ombros", "Braços", "Abdômen"], ["Peito" => 2, "Abdômen" => 1, "Ombros" => 2, "Braços" => 2]);
@@ -228,13 +262,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             echo "<td>" . $exercicio["serie"] . "</td>";
                             echo "<td>" . $exercicio["repeticao"] . "</td>";
                             // Repita o mesmo padrão para as outras colunas
-                            echo "<td></td>";
-                            echo "<td></td>";
-                            echo "<td></td>";
-                            echo "<td></td>";
-                            echo "<td></td>";
-                            echo "<td></td>";
-                            echo "</tr>";
+                            // echo "<td></td>";
+                            // echo "<td></td>";
+                            // echo "<td></td>";
+                            // echo "<td></td>";
+                            // echo "<td></td>";
+                            // echo "<td></td>";
+                            // echo "</tr>";
                         }
                     }
                     ?>

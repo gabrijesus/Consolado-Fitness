@@ -1,10 +1,10 @@
 
 <?php
 // Dados do banco de dados e do servidor
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "consulado_fitness_db";
+$host = "fdb1032.awardspace.net";
+$username = "4401063_consuladofitness";
+$password = "Consul@do15";
+$database = "consuladofitness";
 
 try {
     // Criando uma nova conexão usando PDO

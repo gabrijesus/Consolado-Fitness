@@ -1,6 +1,7 @@
 .img_inicial img {
     height: 92vh;
     width: 100vw;
+    max-width: 100%;
     object-fit: cover;
 }
 

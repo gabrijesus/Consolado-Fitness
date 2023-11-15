@@ -7,21 +7,29 @@
 .text_em_cima {
     position: absolute;
     z-index: 1;
-    margin: 2rem 1rem;
+    margin: 2rem auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     height: 78vh;
     text-align: center;
+    width: 100%;
 }
 
-.text_em_cima h2 {
+.text_em_cima .titulos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.text_em_cima .titulos h2{
     color: #FFAA33;
-    font-size: 33px;
+    font-size: 30px;
 }
 
 .text_em_cima p {
-    font-size: 30px;
+    font-size: 27px;
     font-weight: bold;
     height: auto;
 }
@@ -29,6 +37,7 @@
 .text_em_cima button {
     background-color:var(--color-orange);
     height: 10vh;
+    width: 90vw;
     border-radius: 20px;
     font-weight: bold;
     font-size: 20px;
@@ -83,19 +92,12 @@
     margin-bottom: 10px;
 }
 
+
+
 @media screen and (min-width: 600px) {
 
     .text_em_cima {
-        align-items: center;
-        margin: 2rem;
-        width: 90vw;
-    }
-
-    .text_em_cima h2 {
-        margin: 20px 65px 0 65px;
-    }
-
-    .text_em_cima button {
-        width: 60vw;
+        width: 70vw;
+        margin: 2rem 6rem;
     }
 }

@@ -1,29 +1,6 @@
 <?php
 include "conexao.php";
 
-$exercicios = [
-    ["nome" => "Supino", "grupo_muscular" => "Peito", "tipo" => "Musculação"],
-    ["nome" => "Agachamento", "grupo_muscular" => "Pernas", "tipo" => "Musculação"],
-    ["nome" => "Flexão de Braço", "grupo_muscular" => "Peito", "tipo" => "Exercício em Casa"],
-    ["nome" => "Prancha", "grupo_muscular" => "Abdômen", "tipo" => "Exercício em Casa"],
-    ["nome" => "Leg Press", "grupo_muscular" => "Pernas", "tipo" => "Musculação"],
-    ["nome" => "Burpees", "grupo_muscular" => "Corpo Inteiro", "tipo" => "Exercício em Casa"],
-    ["nome" => "Rosca Direta", "grupo_muscular" => "Braços", "tipo" => "Musculação"],
-    ["nome" => "Prancha Lateral", "grupo_muscular" => "Abdômen", "tipo" => "Exercício em Casa"],
-    ["nome" => "Supino Inclinado", "grupo_muscular" => "Peito", "tipo" => "Musculação"],
-    ["nome" => "Agachamento Búlgaro", "grupo_muscular" => "Pernas", "tipo" => "Musculação"],
-    ["nome" => "Abdominais", "grupo_muscular" => "Abdômen", "tipo" => "Exercício em Casa"],
-    ["nome" => "Puxada de Barra", "grupo_muscular" => "Costas", "tipo" => "Musculação"],
-    ["nome" => "Flexão de Braço Diamond", "grupo_muscular" => "Peito", "tipo" => "Exercício em Casa"],
-    ["nome" => "Desenvolvimento de Ombro", "grupo_muscular" => "Ombros", "tipo" => "Musculação"],
-    ["nome" => "Agachamento Frontal", "grupo_muscular" => "Pernas", "tipo" => "Musculação"],
-    ["nome" => "Prancha Superman", "grupo_muscular" => "Abdômen", "tipo" => "Exercício em Casa"],
-    ["nome" => "Rosca Martelo", "grupo_muscular" => "Braços", "tipo" => "Musculação"],
-    ["nome" => "Flexão de Braço Declinada", "grupo_muscular" => "Peito", "tipo" => "Exercício em Casa"],
-    ["nome" => "Barra Fixa", "grupo_muscular" => "Costas", "tipo" => "Musculação"],
-    ["nome" => "Agachamento Sumô", "grupo_muscular" => "Pernas", "tipo" => "Musculação"]
-];
-
 function selecionar_exercicios($preferencia_treino, $grupos_musculares, $quantidades)
 {
     global $exercicios;

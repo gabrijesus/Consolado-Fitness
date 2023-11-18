@@ -8,6 +8,7 @@ main {
     flex-direction: column;
     align-items: center;
     margin-top: 2rem;
+    max-width: 100%;
 }
 
 form {
@@ -63,6 +64,7 @@ select {
     overflow: auto;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 2rem;
 }
 
 table {
@@ -79,6 +81,29 @@ th, td {
     border-radius: 10px;
     padding: 1rem;
     font-size: 18px;
+}
+
+.export-form {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.export-btn {
+    width: 20vw;
+    padding: .5rem;
+    background-color: #FF5733;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.export-btn:hover {
+    filter: brightness(.9);
 }
 
 @media screen and (max-width: 768px) {

@@ -1,37 +1,47 @@
 <?php
 include "conexao.php";
+include "queriesSql.php";
 
-function selecionar_exercicios($preferencia_treino, $grupos_musculares, $quantidades)
+function selecionar_exercicios($conn, $preferencia_treino, $grupos_musculares, $quantidades)
 {
-    global $exercicios;
+    $resultados = [];
 
-    $exercicios_selecionados = [];
+    mysqli_begin_transaction($conn);
+    try {
+        $stmt = mysqli_prepare($conn, QUERY_SELECT_EXERCICIOS);
 
-    // Para cada grupo muscular desejado, selecione a quantidade especificada
-    foreach ($grupos_musculares as $grupo_muscular) {
-        // Filtra exercícios com base na preferência de treino e grupo muscular
-        $exercicios_filtrados = array_filter($exercicios, function ($exercicio) use ($preferencia_treino, $grupo_muscular) {
-            return $exercicio["grupo_muscular"] === $grupo_muscular && $exercicio["tipo"] === $preferencia_treino;
-        });
+        foreach ($grupos_musculares as $index => $grupo_muscular) {
+            $quantidade = $quantidades[$index];
 
-        // Limita a quantidade de exercícios com base na quantidade especificada
-        $quantidade = $quantidades[$grupo_muscular];
+            if ($grupo_muscular === "Abdomen") {
+                $preferencia_treino = "vazio";
+            }
 
-        // Adiciona informações de série e repetição aos exercícios
-        foreach ($exercicios_filtrados as &$exercicio) {
-            $exercicio["serie"] = 3;  // Replace with the actual number of series
-            $exercicio["repeticao"] = 12;  // Replace with the actual number of repetitions
+            mysqli_stmt_bind_param($stmt, "ssi", $preferencia_treino, $grupo_muscular, $quantidade);
+            mysqli_stmt_execute($stmt);
+
+            $result = mysqli_stmt_get_result($stmt);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $row["serie"] = 3;
+                $row["repeticao"] = 12;
+                $resultados[] = $row;
+            }
+
+            mysqli_stmt_reset($stmt);
         }
 
-        // Use the "+" operator to preserve keys
-        $exercicios_selecionados += array_slice($exercicios_filtrados, 0, $quantidade);
-    }
+        mysqli_stmt_close($stmt);
+        mysqli_commit($conn);
 
-    var_dump($exercicios_selecionados);
-    return $exercicios_selecionados;
+        return $resultados;
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        mysqli_rollback($conn);
+    }
 }
 
-function gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana)
+function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana)
 {
     $ficha_treino = [];
 
@@ -42,74 +52,60 @@ function gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana)
 
     switch ($treinos_semana) {
         case 2:
-            $ficha_treino["divisao"] = ["Full-body"];
-            $ficha_treino["divisao"]["A"] = [];
-            $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Ombros", "Braços", "Pernas", "Costas", "Abdômen"], ["Pernas" => 1, "Peito" => 1, "Abdômen" => 1, "Ombros" => 1, "Braços" => 1, "Costas" => 1]);
+            $ficha_treino["divisao"]["A - Full Body"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Biceps", "Triceps", "Quadriceps", "Posterior de coxa", "Abdomen"], [1, 1, 1, 1, 1, 1, 1, 1]);
             break;
         case 3:
             if ($nivel_treino === "iniciante") {
-                $ficha_treino["divisao"] = ["Full-body"];
-                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Ombros", "Braços", "Pernas", "Costas", "Abdômen"], ["Pernas" => 1, "Peito" => 1, "Abdômen" => 1, "Ombros" => 1, "Braços" => 1, "Costas" => 1]);;
+                $ficha_treino["divisao"]["A - Full Body"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Biceps", "Triceps", "Quadriceps", "Posterior de coxa", "Abdomen"], [1, 1, 1, 1, 1, 1, 1, 1]);
             } else {
-                $ficha_treino["divisao"] = ["ABC"];
-                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Ombros", "Braços", "Abdômen"], ["Peito" => 2, "Abdômen" => 1, "Ombros" => 2, "Braços" => 2]);
-                $ficha_treino["divisao"]["B"] = selecionar_exercicios($preferencia_treino, ["Costas", "Ombros", "Braços"], ["Costas" => 2, "Abdômen" => 1, "Ombros" => 2, "Braços" => 2]);
-                $ficha_treino["divisao"]["C"] = selecionar_exercicios($preferencia_treino, ["Pernas", "Abdômen"], ["Pernas" => 6, "Abdômen" => 1]);
+                $ficha_treino["divisao"]["A - Peito, Ombros e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Ombro Anterior", "Ombro Lateral", "Triceps", "Abdomen"], [2, 1, 1, 2, 1]);
+                $ficha_treino["divisao"]["B - Costas, Ombros e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Ombro Posterior", "Ombro Lateral", "Biceps"], [3, 1, 1, 2]);
+                $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de coxa", "Panturrilha"], [3, 3, 1]);
             }
             break;
         case 4:
             if ($nivel_treino === "iniciante") {
-                $ficha_treino["divisao"] = ["AB"];
-                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Bíceps", "Tríceps", "Abdômen"], ["Peito" => 2, "Costas" => 2, "Ombro Anterior" => 1, "Ombro Lateral" => 1, "Bíceps" => 1, "Tríceps" => 1, "Abdômen" => 1]);
-                $ficha_treino["divisao"]["B"] = selecionar_exercicios($preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], ["Quadriceps" => 3, "Posterior de Coxa" => 3, "Panturrilha" => 1]);
+                $ficha_treino["divisao"]["A - Superiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Biceps", "Triceps", "Abdomen"], [2, 2, 1, 1, 1, 1, 1]);
+                $ficha_treino["divisao"]["B - Inferiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 2, 1]);
             } else {
-                $ficha_treino["divisao"] = ["ABCD"];
-                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Tríceps"], ["Peito" => 4, "Tríceps" => 3]);
-                $ficha_treino["divisao"]["B"] = selecionar_exercicios($preferencia_treino, ["Costas", "Bíceps"], ["Costas" => 4, "Bíceps" => 3]);
-                $ficha_treino["divisao"]["C"] = selecionar_exercicios($preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], ["Quadriceps" => 3, "Posterior de Coxa" => 3, "Panturrilha" => 1]);
-                $ficha_treino["divisao"]["D"] = selecionar_exercicios($preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior", "Abdômen"], ["Ombro Anterior" => 3, "Ombro Lateral" => 3, "Ombro Posterior" => 3, "Abdômen" => 1]);
+                $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps"], [4, 3]);
+                $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps"], [4, 3]);
+                $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 1]);
+                $ficha_treino["divisao"]["D - Ombros"] = selecionar_exercicios($conn, $preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior", "Abdômen"], [3, 3, 3, 1]);
             }
             break;
         case 5:
             if ($nivel_treino === "iniciante") {
-                $ficha_treino["divisao"] = ["AB"];
-                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Bíceps", "Tríceps", "Abdômen"], ["Peito" => 2, "Costas" => 2, "Ombro Anterior" => 1, "Ombro Lateral" => 1, "Bíceps" => 1, "Tríceps" => 1, "Abdômen" => 1]);
-                $ficha_treino["divisao"]["B"] = selecionar_exercicios($preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], ["Quadriceps" => 3, "Posterior de Coxa" => 3, "Panturrilha" => 1]);
+                $ficha_treino["divisao"]["A - Superiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Biceps", "Triceps", "Abdomen"], [2, 2, 1, 1, 1, 1, 1]);
+                $ficha_treino["divisao"]["B - Inferiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 2, 1]);
             } else if ($nivel_treino === "intermediario") {
-                $ficha_treino["divisao"] = ["ABCD"];
-                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Tríceps"], ["Peito" => 4, "Tríceps" => 3]);
-                $ficha_treino["divisao"]["B"] = selecionar_exercicios($preferencia_treino, ["Costas", "Bíceps"], ["Costas" => 4, "Bíceps" => 3]);
-                $ficha_treino["divisao"]["C"] = selecionar_exercicios($preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], ["Quadriceps" => 3, "Posterior de Coxa" => 3, "Panturrilha" => 1]);
-                $ficha_treino["divisao"]["D"] = selecionar_exercicios($preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior", "Abdômen"], ["Ombro Anterior" => 3, "Ombro Lateral" => 3, "Ombro Posterior" => 3, "Abdômen" => 1]);
+                $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps", "Abdomen"], [4,3,1]);
+                $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps", "Abdomen"], [4,3,1]);
+                $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 1]);
+                $ficha_treino["divisao"]["D - Ombros"] = selecionar_exercicios($conn, $preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior"], [3, 3, 3]);
             } else {
-                $ficha_treino["divisao"] = ["ABCDE"];
-                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito"], ["Peito" => 5, "Abdômen" => 2]);
-                $ficha_treino["divisao"]["B"] = selecionar_exercicios($preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], ["Quadriceps" => 3, "Posterior de Coxa" => 3, "Panturrilha" => 2]);
-                $ficha_treino["divisao"]["C"] = selecionar_exercicios($preferencia_treino, ["Costas", "Abdômen"], ["Costas" => 6, "Abdômen" => 2]);
-                $ficha_treino["divisao"]["D"] = selecionar_exercicios($preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior"], ["Ombro Anterior" => 3, "Ombro Lateral" => 3, "Ombro Posterior" => 3]);
-                $ficha_treino["divisao"]["E"] = selecionar_exercicios($preferencia_treino, ["Bíceps", "Tríceps", "Panturrilha"], ["Bíceps" => 4, "Tríceps" => 3, "Panturrilha" => 2]);
+                $ficha_treino["divisao"]["A - - Peito e Abdomen"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Abdomen"], [5, 2]);
+                $ficha_treino["divisao"]["B - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 2]);
+                $ficha_treino["divisao"]["C - Costas e Abdomen"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Abdomen"], [6, 2]);
+                $ficha_treino["divisao"]["D - Ombros"] = selecionar_exercicios($conn, $preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior"], [3, 3, 3]);
+                $ficha_treino["divisao"]["E - Braços"] = selecionar_exercicios($conn, $preferencia_treino, ["Biceps", "Triceps", "Panturrilha"], [4, 3, 2]);
             }
             break;
         case 6:
             if ($nivel_treino === "iniciante" || $nivel_treino === "intermediario") {
-                $ficha_treino["divisao"] = ["ABC"];
-                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito", "Ombros", "Braços", "Abdômen"], ["Peito" => 2, "Abdômen" => 1, "Ombros" => 2, "Braços" => 2]);
-                $ficha_treino["divisao"]["B"] = selecionar_exercicios($preferencia_treino, ["Costas", "Ombros", "Braços"], ["Costas" => 2, "Abdômen" => 1, "Ombros" => 2, "Braços" => 2]);
-                $ficha_treino["divisao"]["C"] = selecionar_exercicios($preferencia_treino, ["Pernas", "Abdômen"], ["Pernas" => 6, "Abdômen" => 1]);
+                $ficha_treino["divisao"]["A - Peito, Ombros e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Ombro Anterior", "Ombro Lateral", "Triceps", "Abdomen"], [2, 1, 1, 2, 1]);
+                $ficha_treino["divisao"]["B - Costas, Ombros e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Ombro Posterior", "Ombro Lateral", "Biceps"], [3, 1, 1, 2]);
+                $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de coxa", "Panturrilha"], [3, 3, 1]);
             } else {
-                $ficha_treino["divisao"] = ["ABCDE"];
-                $ficha_treino["divisao"]["A"] = selecionar_exercicios($preferencia_treino, ["Peito"], ["Peito" => 5, "Abdômen" => 2]);
-                $ficha_treino["divisao"]["B"] = selecionar_exercicios($preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], ["Quadriceps" => 3, "Posterior de Coxa" => 3, "Panturrilha" => 2]);
-                $ficha_treino["divisao"]["C"] = selecionar_exercicios($preferencia_treino, ["Costas", "Abdômen"], ["Costas" => 6, "Abdômen" => 2]);
-                $ficha_treino["divisao"]["D"] = selecionar_exercicios($preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior"], ["Ombro Anterior" => 3, "Ombro Lateral" => 3, "Ombro Posterior" => 3]);
-                $ficha_treino["divisao"]["E"] = selecionar_exercicios($preferencia_treino, ["Bíceps", "Tríceps", "Panturrilha"], ["Bíceps" => 4, "Tríceps" => 3, "Panturrilha" => 2]);
+                $ficha_treino["divisao"]["A - Peito e Abdomen"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Abdomen"], [5, 2]);
+                $ficha_treino["divisao"]["B - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 2]);
+                $ficha_treino["divisao"]["C - Costas e Abdomen"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Abdomen"], [6, 2]);
+                $ficha_treino["divisao"]["D - Ombros"] = selecionar_exercicios($conn, $preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior"], [3, 3, 3]);
+                $ficha_treino["divisao"]["E - Braços"] = selecionar_exercicios($conn, $preferencia_treino, ["Biceps", "Triceps", "Panturrilha"], [4, 3, 2]);
             }
             break;
     }
 
-    // echo "<pre>";
-    // var_dump($ficha_treino["divisao"]);
-    // echo "</pre>";
     return $ficha_treino;
 }
 
@@ -118,8 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nivel_treino = $_POST["nivelTreino"];
     $treinos_semana = $_POST["qtdTreinos"];
 
-    $ficha_treino = gerar_treino($preferencia_treino, $nivel_treino, $treinos_semana);
-    var_dump($ficha_treino);
+    $ficha_treino = gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana);
 }
 ?>
 <!DOCTYPE html>
@@ -178,29 +173,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="input-item">
                     <label for="qtdTreinos">Quantas vezes você treina por semana?</label>
                     <select name="qtdTreinos" id="qtdTreinos">
-                        <option value="vazio"></option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
+                        <option value="vazio" <?php echo (isset($_POST['qtdTreinos']) && $_POST['qtdTreinos'] == 'vazio') ? 'selected' : ''; ?>></option>
+                        <option value="2" <?php echo (isset($_POST['qtdTreinos']) && $_POST['qtdTreinos'] == '2') ? 'selected' : ''; ?>>2</option>
+                        <option value="3" <?php echo (isset($_POST['qtdTreinos']) && $_POST['qtdTreinos'] == '3') ? 'selected' : ''; ?>>3</option>
+                        <option value="4" <?php echo (isset($_POST['qtdTreinos']) && $_POST['qtdTreinos'] == '4') ? 'selected' : ''; ?>>4</option>
+                        <option value="5" <?php echo (isset($_POST['qtdTreinos']) && $_POST['qtdTreinos'] == '5') ? 'selected' : ''; ?>>5</option>
+                        <option value="6" <?php echo (isset($_POST['qtdTreinos']) && $_POST['qtdTreinos'] == '6') ? 'selected' : ''; ?>>6</option>
                     </select>
                 </div>
                 <div class="input-item">
                     <label for="prefTreino">Preferência de treino:</label>
                     <select name="prefTreino" id="prefTreino">
-                        <option value="vazio"></option>
-                        <option value="musculacao">Musculação</option>
-                        <option value="treinoEmCasa">Treino em casa</option>
+                        <option value="vazio" <?php echo (isset($_POST['prefTreino']) && $_POST['prefTreino'] == 'vazio') ? 'selected' : ''; ?>></option>
+                        <option value="Musculacao" <?php echo (isset($_POST['prefTreino']) && $_POST['prefTreino'] == 'Musculacao') ? 'selected' : ''; ?>>Musculação</option>
+                        <option value="Exercicios-em-casa" <?php echo (isset($_POST['prefTreino']) && $_POST['prefTreino'] == 'Exercicios-em-casa') ? 'selected' : ''; ?>>Treino em casa</option>
                     </select>
                 </div>
                 <div class="input-item">
                     <label for="nivelTreino">Nível de treino:</label>
                     <select name="nivelTreino" id="nivelTreino">
-                        <option value="vazio"></option>
-                        <option value="iniciante">Iniciante</option>
-                        <option value="intermediario">Intermediário</option>
-                        <option value="avancado">Avançado</option>
+                        <option value="vazio" <?php echo (isset($_POST['nivelTreino']) && $_POST['nivelTreino'] == 'vazio') ? 'selected' : ''; ?>></option>
+                        <option value="iniciante" <?php echo (isset($_POST['nivelTreino']) && $_POST['nivelTreino'] == 'iniciante') ? 'selected' : ''; ?>>Iniciante</option>
+                        <option value="intermediario" <?php echo (isset($_POST['nivelTreino']) && $_POST['nivelTreino'] == 'intermediario') ? 'selected' : ''; ?>>Intermediário</option>
+                        <option value="avancado" <?php echo (isset($_POST['nivelTreino']) && $_POST['nivelTreino'] == 'avancado') ? 'selected' : ''; ?>>Avançado</option>
                     </select>
                 </div>
                 <div class="input-item">
@@ -210,42 +205,108 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </form>
 
         <div class="table-container">
+            <!-- Botão para exportar a tabela -->
+            <form action="exportarPlanilha.php" method="post" class="export-form">
+                <?php
+                if (isset($ficha_treino) && is_array($ficha_treino)) {
+                    echo "<input type='hidden' name='cabecalho_treino' value='" . htmlspecialchars(json_encode($ficha_treino["divisao"])) . "'>";
+                    echo "<input type='hidden' name='ficha_treino' value='" . json_encode($ficha_treino) . "'>";
+                    echo "<button class='export-btn' type='submit' name='exportar'>Baixar Treino</button>";
+                }
+                ?>
+            </form>
             <table border="1">
                 <thead>
                     <tr>
-                        <th colspan="3">A (Peito, Ombros e Tríceps)</th>
-                        <th colspan="3">B (Costas, Ombros e Bíceps)</th>
-                        <th colspan="3">C (Pernas)</th>
+                        <?php
+                        // Gera automaticamente as colunas com base nas divisões presentes
+                        if (isset($ficha_treino) && is_array($ficha_treino)) {
+                            $fichaLength = count($ficha_treino["divisao"]);
+                            switch ($fichaLength) {
+                                case 1:
+                                    echo "<th colspan='3'>Treino A - Full Body</th>";
+                                    break;
+                                case 2:
+                                    echo "<th colspan='3'>Treino A - Superiores</th>";
+                                    echo "<th colspan='3'>Treino B - Inferiores</th>";
+                                    break;
+                                case 3:
+                                    echo "<th colspan='3'>Treino A - Peito, Ombros e Tríceps</th>";
+                                    echo "<th colspan='3'>Treino B - Costas, Ombros e Bíceps</th>";
+                                    echo "<th colspan='3'>Treino C - Pernas</th>";
+                                    break;
+                                case 4:
+                                    echo "<th colspan='3'>Treino A - Peito e Tríceps</th>";
+                                    echo "<th colspan='3'>Treino B - Costas e Bíceps</th>";
+                                    echo "<th colspan='3'>Treino C - Pernas</th>";
+                                    echo "<th colspan='3'>Treino D - Ombros</th>";
+                                    break;
+                                case 5:
+                                    echo "<th colspan='3'>Treino A - Peito e Abdomen</th>";
+                                    echo "<th colspan='3'>Treino B - Pernas</th>";
+                                    echo "<th colspan='3'>Treino C - Costas e Abdomen</th>";
+                                    echo "<th colspan='3'>Treino D - Ombros</th>";
+                                    echo "<th colspan='3'>Treino E - Braços</th>";
+                                    break;
+                                default:
+                                    echo "<th colspan='3'></th>";
+                                    break;
+                            }
+                        } else {
+                            echo "<div class='mensagemInicial'>";
+                            echo "<h2>Você ainda não possui nenhum treino, preencha as informações e bora treinar!!</h2>";
+                            echo "</div>";
+                        }
+                        ?>
                     </tr>
                     <tr>
-                        <th>Exercício</th>
-                        <th>Série</th>
-                        <th>Repetições</th>
-                        <th>Exercício</th>
-                        <th>Série</th>
-                        <th>Repetições</th>
-                        <th>Exercício</th>
-                        <th>Série</th>
-                        <th>Repetições</th>
+                        <?php
+                        if (isset($ficha_treino) && is_array($ficha_treino)) {
+                            // Obtemos o número total de divisões
+                            $numDivisoes = count($ficha_treino["divisao"]);
+
+                            // Repetir a estrutura do cabeçalho conforme o tamanho do array
+                            for ($j = 0; $j < $numDivisoes; $j++) {
+                                // Exibir as colunas do cabeçalho
+                                echo "<th>Exercício</th>";
+                                echo "<th>Série</th>";
+                                echo "<th>Repetições</th>";
+                            }
+                        }
+                        ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    // Substitua os dados de exemplo pelos exercícios gerados dinamicamente
                     if (isset($ficha_treino) && is_array($ficha_treino)) {
-                        foreach ($ficha_treino["divisao"]["A"] as $exercicio) {
+                        // Encontrar o número máximo de exercícios em uma única divisão
+                        $maxExercicios = 0;
+
+                        foreach ($ficha_treino["divisao"] as $divisao => $exercicios) {
+                            $numExercicios = count($exercicios);
+                            if ($numExercicios > $maxExercicios) {
+                                $maxExercicios = $numExercicios;
+                            }
+                        }
+
+                        // Iterar sobre o número máximo de exercícios
+                        for ($i = 0; $i < $maxExercicios; $i++) {
                             echo "<tr align='center'>";
-                            echo "<td>" . $exercicio["nome"] . "</td>";
-                            echo "<td>" . $exercicio["serie"] . "</td>";
-                            echo "<td>" . $exercicio["repeticao"] . "</td>";
-                            // Repita o mesmo padrão para as outras colunas
-                            // echo "<td></td>";
-                            // echo "<td></td>";
-                            // echo "<td></td>";
-                            // echo "<td></td>";
-                            // echo "<td></td>";
-                            // echo "<td></td>";
-                            // echo "</tr>";
+                            foreach ($ficha_treino["divisao"] as $divisao => $exercicios) {
+                                // Verificar se existe um exercício para o índice atual
+                                if (isset($exercicios[$i])) {
+                                    echo "<td>" . $exercicios[$i]["nome_exercicio"] . "</td>";
+                                    echo "<td>" . $exercicios[$i]["serie"] . "</td>";
+                                    echo "<td>" . $exercicios[$i]["repeticao"] . "</td>";
+                                } else {
+                                    // Se não houver exercício, exibir células vazias
+                                    echo "<td></td>";
+                                    echo "<td></td>";
+                                    echo "<td></td>";
+                                }
+                            }
+
+                            echo "</tr>";
                         }
                     }
                     ?>

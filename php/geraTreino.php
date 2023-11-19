@@ -79,8 +79,8 @@ function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana
                 $ficha_treino["divisao"]["A - Superiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Biceps", "Triceps", "Abdomen"], [2, 2, 1, 1, 1, 1, 1]);
                 $ficha_treino["divisao"]["B - Inferiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 2, 1]);
             } else if ($nivel_treino === "intermediario") {
-                $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps", "Abdomen"], [4,3,1]);
-                $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps", "Abdomen"], [4,3,1]);
+                $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps", "Abdomen"], [4, 3, 1]);
+                $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps", "Abdomen"], [4, 3, 1]);
                 $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 1]);
                 $ficha_treino["divisao"]["D - Ombros"] = selecionar_exercicios($conn, $preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior"], [3, 3, 3]);
             } else {
@@ -204,17 +204,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
         </form>
 
+        <!-- Botão para exportar a tabela -->
+        <form action="exportarPlanilha.php" method="post" class="export-form">
+            <?php
+            if (isset($ficha_treino) && is_array($ficha_treino)) {
+                echo "<input type='hidden' name='cabecalho_treino' value='" . htmlspecialchars(json_encode($ficha_treino["divisao"])) . "'>";
+                echo "<input type='hidden' name='ficha_treino' value='" . json_encode($ficha_treino) . "'>";
+                echo "<button class='export-btn' type='submit' name='exportar'>Baixar Treino</button>";
+            }
+            ?>
+        </form>
+
         <div class="table-container">
-            <!-- Botão para exportar a tabela -->
-            <form action="exportarPlanilha.php" method="post" class="export-form">
-                <?php
-                if (isset($ficha_treino) && is_array($ficha_treino)) {
-                    echo "<input type='hidden' name='cabecalho_treino' value='" . htmlspecialchars(json_encode($ficha_treino["divisao"])) . "'>";
-                    echo "<input type='hidden' name='ficha_treino' value='" . json_encode($ficha_treino) . "'>";
-                    echo "<button class='export-btn' type='submit' name='exportar'>Baixar Treino</button>";
-                }
-                ?>
-            </form>
             <table border="1">
                 <thead>
                     <tr>

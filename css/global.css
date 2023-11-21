@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=League+Spartan:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=League+Spartan:wght@600;700;800&family=Poppins:wght@400;500&display=swap');
 /* font-family: 'Lato', sans-serif;
 font-family: 'League Spartan', sans-serif; */
 
@@ -14,6 +14,7 @@ font-family: 'League Spartan', sans-serif; */
     --color-cinza1: #333; /*fundo do site*/
     --color-fundocinza2: #666;
     --color-fontecinza3: #999;
+    --color-fundocinza4: #EFEFEF;
     --color-fontwhite: #fff;
     
     --color-orange: #FF8833; /*cor do botão*/

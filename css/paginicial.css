@@ -5,9 +5,12 @@
     object-fit: cover;
 }
 
-.text_em_cima {
+.tudo_cima {
     position: absolute;
     z-index: 1;
+}
+
+.text_em_cima {
     margin: 2rem auto;
     display: flex;
     flex-direction: column;
@@ -16,6 +19,7 @@
     height: 78vh;
     text-align: center;
     width: 100%;
+    max-width: 100%;
 }
 
 .text_em_cima .titulos {
@@ -33,12 +37,14 @@
     font-size: 27px;
     font-weight: bold;
     height: auto;
+    margin: 0 20px;
 }
 
 .text_em_cima button {
     background-color:var(--color-orange);
     height: 10vh;
-    width: 90vw;
+    width: 100%;
+    max-width: 90vw;
     border-radius: 20px;
     font-weight: bold;
     font-size: 20px;
@@ -52,7 +58,6 @@
     text-align: center;
 }
 
-/* container  */
 .todas_plataforma {
     margin: 20px 0;
     display: flex;
@@ -60,7 +65,6 @@
     justify-content: center;
 }
 
-/* item  */
 .caixa {
     background-color: #1E1E1E;
     border-radius: 8px;
@@ -93,12 +97,22 @@
     margin-bottom: 10px;
 }
 
+.celular img {
+    display:none;
+}
 
 
 @media screen and (min-width: 600px) {
 
     .text_em_cima {
-        width: 70vw;
-        margin: 2rem 6rem;
+        margin: 2rem 0;
+        max-width: 600px;
+    }
+    .text_em_cima .titulos h2{
+        font-size: 40px;
+    }
+    
+    .text_em_cima p {
+        font-size: 30px;
     }
 }

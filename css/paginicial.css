@@ -106,7 +106,7 @@
 
     .text_em_cima {
         margin: 2rem 0;
-        max-width: 600px;
+        max-width: 1000px;
     }
     .text_em_cima .titulos h2{
         font-size: 40px;
@@ -114,5 +114,24 @@
     
     .text_em_cima p {
         font-size: 30px;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+
+    .tudo_cima {
+        display: flex;
+        margin: 2rem 1rem;
+        width: 100%;
+        
+    }
+
+    .text_em_cima {
+        width: 500px;
+    }
+    .celular img {
+        display: block;
+        position: absolute;
+        z-index: 1000;
     }
 }

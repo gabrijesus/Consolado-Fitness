@@ -121,17 +121,20 @@
 
     .tudo_cima {
         display: flex;
-        margin: 2rem 1rem;
-        width: 100%;
+        margin: 2rem;
+        width: 90vw;
+        justify-content: space-around;
         
     }
 
     .text_em_cima {
-        width: 500px;
+        max-width: 500px;
     }
+
     .celular img {
         display: block;
-        position: absolute;
-        z-index: 1000;
+        width: 380px;
+        margin-left: 2vw;
+        margin-top: 25px;
     }
 }

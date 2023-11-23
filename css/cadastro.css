@@ -4,6 +4,10 @@ form {
     margin: 2rem 1.5rem;
 }
 
+.area_cadastro form a {
+    font-size: 20px;
+}
+
 h1 {
     text-align: center;
     font-size: 35px;
@@ -22,12 +26,12 @@ span {
     margin: 8px 0;
 }
 
-.info_pessoal input {
+.info_pessoal .input {
     color: var(--color-fundoblack);
     font-size: 20px;
     width: inherit;
     padding: 10px;
-    height: 20px;
+    height: 40px;
 }
 
 .botao_cadastro {
@@ -40,6 +44,9 @@ input, select {
     border-radius: 5px;
     font-size: 18px;
 }
+ .date {
+    color: black;
+ }
 
 .img_cadastro {
     display: none;
@@ -59,8 +66,12 @@ input, select {
     .escolha {
         display: flex;
         flex-direction: row;
-        width: auto;
         justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .escolha span input {
+        width: 34vw;
     }
 
     select {
@@ -74,6 +85,7 @@ input, select {
     .area_cadastro {
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
 
     form {
@@ -81,10 +93,13 @@ input, select {
         margin: 2rem;
     }
 
-    select {
-        width: 20vw;
+    select{
+        width: 15vw;
     }
 
+    .escolha span input {
+        width: 15vw;
+    }
 
     .img_cadastro {
         display: block;

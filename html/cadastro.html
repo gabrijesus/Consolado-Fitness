@@ -24,15 +24,27 @@
 
             <div class="info_pessoal">
                 <label for="">E-mail</label>
-                <input type="email">
+                <input type="email" class="input">
             </div>
             
-            <div class="info_pessoal">
-                <label for="">Data de nascimento</label>
-                <input type="date">
-            </div>
-
             <div class="info_pessoal escolha">
+            
+                <span>
+                    <label for="">Data de nascimento</label>
+                    <input type="date" class="date">
+
+                </span>
+
+                <span>
+
+                    <label for="">Sexo</label>
+
+                    <select name="sexo" id="sexo">
+                        <option value="homem">Masculino</option>
+                        <option value="mulher">Feminino</option>
+                    </select>
+
+                </span>
                 
                 <span>
 
@@ -64,6 +76,8 @@
             </div>
 
             <input type="button" value="Cadastrar" class="botao_cadastro">
+
+            <a href="#">Já possui conta? Faça login</a>
 
         </form>
 

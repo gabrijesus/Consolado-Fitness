@@ -79,8 +79,8 @@ function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana
                 $ficha_treino["divisao"]["A - Superiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Biceps", "Triceps", "Abdomen"], [2, 2, 1, 1, 1, 1, 1]);
                 $ficha_treino["divisao"]["B - Inferiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 2, 1]);
             } else if ($nivel_treino === "intermediario") {
-                $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps", "Abdomen"], [4,3,1]);
-                $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps", "Abdomen"], [4,3,1]);
+                $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps", "Abdomen"], [4, 3, 1]);
+                $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps", "Abdomen"], [4, 3, 1]);
                 $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 1]);
                 $ficha_treino["divisao"]["D - Ombros"] = selecionar_exercicios($conn, $preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior"], [3, 3, 3]);
             } else {
@@ -126,6 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Gerador de treino | Consulado Fitness</title>
     <link rel="stylesheet" href="../css/geraTreino.css">
     <link rel="stylesheet" href="../css/global.css">
+    <link rel="shortcut icon" href="../imagens/favicon.ico" type="image/x-icon">
 </head>
 
 <body>

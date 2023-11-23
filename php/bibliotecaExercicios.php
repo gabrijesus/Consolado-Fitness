@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                         mysqli_stmt_bind_param($stmt, "ss", $filtro, $ordenacao);
                     }
                 }
-                
+
                 if (!isset($ordenacao)) {
                     $stmt = mysqli_prepare($conn, "SELECT * FROM exercicio WHERE grupo_muscular = ?");
                     mysqli_stmt_bind_param($stmt, "s", $filtro);
@@ -80,6 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     <title>Biblioteca de Exercícios | Consulado Fitness</title>
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/bibliotecaExercicios.css">
+    <link rel="shortcut icon" href="../imagens/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -112,7 +113,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         </ul>
     </div>
 
-    <script src="../js/global.js"></script>
     <!-- fim do menu navegacao  -->
 
     <main>
@@ -194,6 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             document.getElementById('myModal').style.display = 'none';
         }
     </script>
+    <script src="../js/global.js"></script>
 </body>
 
 </html>

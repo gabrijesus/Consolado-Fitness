@@ -1,4 +1,11 @@
 <?php
+session_start();
+// if (!isset($_SESSION['user_id'])) {
+    // Redirecionar para a página de login ou fazer qualquer outra ação necessária
+//     header("Location: login.php");
+//     exit();
+// }
+
 include "conexao.php";
 include "queriesSql.php";
 
@@ -41,7 +48,7 @@ function selecionar_exercicios($conn, $preferencia_treino, $grupos_musculares, $
     }
 }
 
-function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana)
+function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana, $sexo)
 {
     $ficha_treino = [];
 
@@ -113,8 +120,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $preferencia_treino = $_POST["prefTreino"];
     $nivel_treino = $_POST["nivelTreino"];
     $treinos_semana = $_POST["qtdTreinos"];
+    $sexo = $conn->query("SELECT sexo FROM usuarios WHERE id = $id");
 
-    $ficha_treino = gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana);
+    $ficha_treino = gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana, $sexo);
 }
 ?>
 <!DOCTYPE html>

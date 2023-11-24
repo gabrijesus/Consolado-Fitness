@@ -1,7 +1,7 @@
 .area_contato {
     height: auto;
     width: auto;
-    margin: 2rem auto;
+    margin: 5rem 1rem;
 }
 
 h1 {
@@ -11,25 +11,39 @@ h1 {
 form {
     display: flex;
     flex-direction: column;
+    align-items: center ;
+    margin: 2rem auto;
 }
+
 
 form .caixa_mensagem {
     display: flex;
     flex-direction: column;
+    width: 90vw;
+    margin: 10px 0;
 }
 
 form .caixa_mensagem label {
     font-size: 20px;
+    margin-bottom: 3px;
 }
 
-input, textarea{
-    width: 80vw;
+form .caixa_mensagem input {
+    width: auto;
     border-radius: 4px;
-    margin: 8px 0;
+    height: 3vh;
 }
 
-input {
+textarea {
+    width: auto;
+    border-radius: 4px;
+}
+
+.enviar {
+    width: 90vw;
+    border-radius: 4px;
     height: 3vh;
+    font-size: 20px;
 }
 
 .caixa_mensagem input {
@@ -45,43 +59,27 @@ input {
     display: none;
 }
 
-/* @media screen and (min-width:768px) {
-    .area_contato {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0;
-        width: 100vw;
-    }
-
-    h1 {
-        text-align: left;
-    }
-
-    input, textarea {
-        width: auto;
-    }
-} */
-
-@media screen and (min-width:999px) {
+@media screen and (min-width:1000px) {
     .area_contato {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        margin: 0;
+    }
+    
+    form .caixa_mensagem{
+        width: 45vw;
     }
 
-    input, textarea, .enviar {
-        width: auto;
-    }
-
-    form {
-        margin: 0 2rem;
+    .enviar {
+        width: 45vw;
     }
 
     .img_desktop {
         display: block;
-        width: 52vw;
-        height: 100vh;
+        width: 50vw;
+        height: 92vh;
+        object-fit: cover;
     }
 }

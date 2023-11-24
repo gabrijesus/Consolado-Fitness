@@ -40,7 +40,7 @@
     margin: 0 20px;
 }
 
-.text_em_cima button {
+.submit_btn {
     background-color:var(--color-orange);
     height: 10vh;
     width: 100%;
@@ -48,6 +48,9 @@
     border-radius: 20px;
     font-weight: bold;
     font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .plataforma_area {

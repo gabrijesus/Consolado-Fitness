@@ -1,13 +1,15 @@
 <?php
 session_start();
 // if (!isset($_SESSION['user_id'])) {
-    // Redirecionar para a página de login ou fazer qualquer outra ação necessária
+// Redirecionar para a página de login ou fazer qualquer outra ação necessária
 //     header("Location: login.php");
 //     exit();
 // }
 
 include "conexao.php";
 include "queriesSql.php";
+
+$id_usuario = 1;
 
 function selecionar_exercicios($conn, $preferencia_treino, $grupos_musculares, $quantidades)
 {
@@ -59,12 +61,15 @@ function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana
 
     switch ($treinos_semana) {
         case 2:
+            $ficha_treino["nome"] = "A - Full Body";
             $ficha_treino["divisao"]["A - Full Body"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Biceps", "Triceps", "Quadriceps", "Posterior de coxa", "Abdomen"], [1, 1, 1, 1, 1, 1, 1, 1]);
             break;
         case 3:
             if ($nivel_treino === "iniciante") {
+                $ficha_treino["nome"] = "A - Full Body";
                 $ficha_treino["divisao"]["A - Full Body"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Biceps", "Triceps", "Quadriceps", "Posterior de coxa", "Abdomen"], [1, 1, 1, 1, 1, 1, 1, 1]);
             } else {
+                $ficha_treino["nome"] = "ABC";
                 $ficha_treino["divisao"]["A - Peito, Ombros e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Ombro Anterior", "Ombro Lateral", "Triceps", "Abdomen"], [2, 1, 1, 2, 1]);
                 $ficha_treino["divisao"]["B - Costas, Ombros e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Ombro Posterior", "Ombro Lateral", "Biceps"], [3, 1, 1, 2]);
                 $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de coxa", "Panturrilha"], [3, 3, 1]);
@@ -72,9 +77,11 @@ function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana
             break;
         case 4:
             if ($nivel_treino === "iniciante") {
+                $ficha_treino["nome"] = "AB";
                 $ficha_treino["divisao"]["A - Superiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Biceps", "Triceps", "Abdomen"], [2, 2, 1, 1, 1, 1, 1]);
                 $ficha_treino["divisao"]["B - Inferiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 2, 1]);
             } else {
+                $ficha_treino["nome"] = "ABCD";
                 $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps"], [4, 3]);
                 $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps"], [4, 3]);
                 $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 1]);
@@ -83,14 +90,17 @@ function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana
             break;
         case 5:
             if ($nivel_treino === "iniciante") {
+                $ficha_treino["nome"] = "AB";
                 $ficha_treino["divisao"]["A - Superiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Biceps", "Triceps", "Abdomen"], [2, 2, 1, 1, 1, 1, 1]);
                 $ficha_treino["divisao"]["B - Inferiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 2, 1]);
             } else if ($nivel_treino === "intermediario") {
-                $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps", "Abdomen"], [4,3,1]);
-                $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps", "Abdomen"], [4,3,1]);
+                $ficha_treino["nome"] = "ABCD";
+                $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps", "Abdomen"], [4, 3, 1]);
+                $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps", "Abdomen"], [4, 3, 1]);
                 $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 1]);
                 $ficha_treino["divisao"]["D - Ombros"] = selecionar_exercicios($conn, $preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior"], [3, 3, 3]);
             } else {
+                $ficha_treino["nome"] = "ABCDE";
                 $ficha_treino["divisao"]["A - - Peito e Abdomen"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Abdomen"], [5, 2]);
                 $ficha_treino["divisao"]["B - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 2]);
                 $ficha_treino["divisao"]["C - Costas e Abdomen"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Abdomen"], [6, 2]);
@@ -100,10 +110,12 @@ function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana
             break;
         case 6:
             if ($nivel_treino === "iniciante" || $nivel_treino === "intermediario") {
+                $ficha_treino["nome"] = "ABC";
                 $ficha_treino["divisao"]["A - Peito, Ombros e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Ombro Anterior", "Ombro Lateral", "Triceps", "Abdomen"], [2, 1, 1, 2, 1]);
                 $ficha_treino["divisao"]["B - Costas, Ombros e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Ombro Posterior", "Ombro Lateral", "Biceps"], [3, 1, 1, 2]);
                 $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de coxa", "Panturrilha"], [3, 3, 1]);
             } else {
+                $ficha_treino["nome"] = "ABCDE";
                 $ficha_treino["divisao"]["A - Peito e Abdomen"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Abdomen"], [5, 2]);
                 $ficha_treino["divisao"]["B - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 2]);
                 $ficha_treino["divisao"]["C - Costas e Abdomen"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Abdomen"], [6, 2]);
@@ -120,9 +132,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $preferencia_treino = $_POST["prefTreino"];
     $nivel_treino = $_POST["nivelTreino"];
     $treinos_semana = $_POST["qtdTreinos"];
-    $sexo = $conn->query("SELECT sexo FROM usuarios WHERE id = $id");
+    $sexo = $conn->query("SELECT sexo FROM usuarios WHERE id_usuario = $id_usuario");
 
     $ficha_treino = gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana, $sexo);
+
+    $nome_ficha_treino = $ficha_treino["nome"];
+    $divisao_ficha_treino = json_encode($ficha_treino["divisao"]);
+
+    mysqli_begin_transaction($conn);
+    try {
+        $stmt = mysqli_prepare($conn, QUERY_INSERT_FICHA_TREINO);
+        mysqli_stmt_bind_param($stmt, "sis", $nome_ficha_treino, $id_usuario, $divisao_ficha_treino);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    } catch (Exception $e) {
+        $e->getMessage();
+        mysqli_rollback($conn);
+    }
+    mysqli_commit($conn);
 }
 ?>
 <!DOCTYPE html>

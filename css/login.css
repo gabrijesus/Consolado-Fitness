@@ -1,0 +1,27 @@
+.pag_login {
+    margin: 2rem 1rem;
+}
+
+.login_part img {
+    margin: 2rem auto;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+}
+
+.login label {
+    
+}
+
+.login input {
+    width: 90vw;
+    height: 3vh;
+    border-radius: 20px;
+    margin: 0 auto;
+}
+
+.img_desktop {
+    display: none;
+}

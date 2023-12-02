@@ -79,8 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <label for="sexo">Sexo</label>
 
                     <select name="sexo" id="sexo" required>
-                        <option value="homem">Masculino</option>
-                        <option value="mulher">Feminino</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
                     </select>
 
                 </span>

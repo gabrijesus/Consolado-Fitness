@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['id_usuario'])) {
+if (!isset($_SESSION["id_usuario"])) {
     header("Location: login.php");
     exit();
 }
@@ -10,11 +10,12 @@ include "../utils/queriesSql.php";
 
 $id_usuario = $_SESSION["id_usuario"];
 
-$infoUsuario = $conn->query("SELECT preferencia_treino, nivel_treino FROM usuarios WHERE id_usuario = $id_usuario");
+$infoUsuario = $conn->query("SELECT preferencia_treino, nivel_treino, sexo FROM usuarios WHERE id_usuario = $id_usuario");
 
 $usuarioInfo = $infoUsuario->fetch_assoc();
 $nivelTreinoSelecionado = $usuarioInfo['nivel_treino'];
 $prefTreinoSelecionada = $usuarioInfo['preferencia_treino'];
+$sexoUsuario = $usuarioInfo['sexo'];
 
 $ficha_treino_result = $conn->query("SELECT * FROM ficha_de_treino WHERE id_usuario = $id_usuario");
 
@@ -93,7 +94,7 @@ function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana
                     $ficha_treino["divisao"]["B - Costas, Ombros e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Ombro Posterior", "Ombro Lateral", "Biceps"], [3, 1, 1, 2]);
                     $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de coxa", "Panturrilha"], [3, 3, 1]);
                 } else if ($sexo === "feminino") {
-                    $ficha_treino["divisao"]["A - Quadriceps e Panturrilhas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Panturrilhas"], [4, 2]);
+                    $ficha_treino["divisao"]["A - Quadriceps e Panturrilhas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Panturrilha"], [4, 2]);
                     $ficha_treino["divisao"]["B - Superiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Biceps", "Triceps", "Abdomen"], [2, 2, 1, 1, 1, 1, 1]);
                     $ficha_treino["divisao"]["C - Posterior de coxa e Panturrilhas"] = selecionar_exercicios($conn, $preferencia_treino, ["Posterior de coxa", "Panturrilha"], [4, 2]);
                 } else {
@@ -105,15 +106,16 @@ function gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana
             if ($nivel_treino === "iniciante") {
                 $ficha_treino["nome"] = "AB";
                 $ficha_treino["divisao"]["A - Superiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Costas", "Ombro Anterior", "Ombro Lateral", "Biceps", "Triceps", "Abdomen"], [2, 2, 1, 1, 1, 1, 1]);
-                $ficha_treino["divisao"]["B - Inferiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 2, 1]);
+                $ficha_treino["divisao"]["B - Inferiores"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 2, 2]);
             } else {
+                $ficha_treino["nome"] = "ABCD";
                 if ($sexo === "masculino") {
                     $ficha_treino["divisao"]["A - Peito e Tríceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Triceps", "Abdomen"], [4, 3, 1]);
                     $ficha_treino["divisao"]["B - Costas e Bíceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps", "Abdomen"], [4, 3, 1]);
                     $ficha_treino["divisao"]["C - Pernas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Posterior de Coxa", "Panturrilha"], [3, 3, 1]);
                     $ficha_treino["divisao"]["D - Ombros"] = selecionar_exercicios($conn, $preferencia_treino, ["Ombro Anterior", "Ombro Lateral", "Ombro Posterior"], [3, 3, 3]);
                 } else if ($sexo === "feminino") {
-                    $ficha_treino["divisao"]["A - Quadriceps e Panturrilhas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Panturrilhas"], [4, 2]);
+                    $ficha_treino["divisao"]["A - Quadriceps e Panturrilhas"] = selecionar_exercicios($conn, $preferencia_treino, ["Quadriceps", "Panturrilha"], [4, 2]);
                     $ficha_treino["divisao"]["B - Peito, Ombros e Triceps"] = selecionar_exercicios($conn, $preferencia_treino, ["Peito", "Ombro Anterior", "Ombro Lateral", "Triceps", "Abdomen"], [2, 1, 1, 2, 1]);
                     $ficha_treino["divisao"]["C - Posterior de coxa e Glúteos"] = selecionar_exercicios($conn, $preferencia_treino, ["Posterior de Coxa", "Gluteos", "Panturrilha"], [3, 2, 1]);
                     $ficha_treino["divisao"]["D - Costas, Bíceps e Abdomen"] = selecionar_exercicios($conn, $preferencia_treino, ["Costas", "Biceps", "Abdomen"], [3, 2, 2]);
@@ -203,11 +205,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $preferencia_treino = $_POST["prefTreino"];
     $nivel_treino = $_POST["nivelTreino"];
     $treinos_semana = $_POST["qtdTreinos"];
-    $sexo = $conn->query("SELECT sexo FROM usuarios WHERE id_usuario = $id_usuario");
-    $sexo = $sexo->fetch_assoc();
-    $sexoUsuario = $sexo['sexo'];
 
-    $ficha_treino = gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana, $sexo);
+    $ficha_treino = gerar_treino($conn, $preferencia_treino, $nivel_treino, $treinos_semana, $sexoUsuario);
 
     $nome_ficha_treino = $ficha_treino["nome"];
     $divisao_ficha_treino = json_encode($ficha_treino["divisao"]);
@@ -306,22 +305,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     echo "<th colspan='3'>Treino B - Inferiores</th>";
                                     break;
                                 case 3:
-                                    echo "<th colspan='3'>Treino A - Peito, Ombros e Tríceps</th>";
-                                    echo "<th colspan='3'>Treino B - Costas, Ombros e Bíceps</th>";
-                                    echo "<th colspan='3'>Treino C - Pernas</th>";
+                                    if ($sexoUsuario === "masculino") {
+                                        echo "<th colspan='3'>Treino A - Peito, Ombros e Tríceps</th>";
+                                        echo "<th colspan='3'>Treino B - Costas, Ombros e Bíceps</th>";
+                                        echo "<th colspan='3'>Treino C - Pernas</th>";
+                                    } else if ($sexoUsuario === "feminino") {
+                                        echo "<th colspan='3'>Treino A - Quadriceps e Panturrilhas</th>";
+                                        echo "<th colspan='3'>Treino B - Superiores</th>";
+                                        echo "<th colspan='3'>Treino C - Posterior de coxa, Glúteos e Panturrilhas</th>";
+                                    }
                                     break;
                                 case 4:
-                                    echo "<th colspan='3'>Treino A - Peito e Tríceps</th>";
-                                    echo "<th colspan='3'>Treino B - Costas e Bíceps</th>";
-                                    echo "<th colspan='3'>Treino C - Pernas</th>";
-                                    echo "<th colspan='3'>Treino D - Ombros</th>";
+                                    if ($sexoUsuario === "masculino") {
+                                        echo "<th colspan='3'>Treino A - Peito e Tríceps</th>";
+                                        echo "<th colspan='3'>Treino B - Costas e Bíceps</th>";
+                                        echo "<th colspan='3'>Treino C - Pernas</th>";
+                                        echo "<th colspan='3'>Treino D - Ombros</th>";
+                                    } else if ($sexoUsuario === "feminino") {
+                                        echo "<th colspan='3'>Treino A - Quadriceps e Panturrilhas</th>";
+                                        echo "<th colspan='3'>Treino B - Peito, Ombros e Triceps</th>";
+                                        echo "<th colspan='3'>Treino C - Posterior de coxa e Glúteos</th>";
+                                        echo "<th colspan='3'>Treino D - Costas, Bíceps e Abdomen</th>";
+                                    }
                                     break;
                                 case 5:
-                                    echo "<th colspan='3'>Treino A - Peito e Abdomen</th>";
-                                    echo "<th colspan='3'>Treino B - Pernas</th>";
-                                    echo "<th colspan='3'>Treino C - Costas e Abdomen</th>";
-                                    echo "<th colspan='3'>Treino D - Ombros</th>";
-                                    echo "<th colspan='3'>Treino E - Braços</th>";
+                                    if ($sexoUsuario === "masculino") {
+                                        echo "<th colspan='3'>Treino A - Peito e Abdomen</th>";
+                                        echo "<th colspan='3'>Treino B - Pernas</th>";
+                                        echo "<th colspan='3'>Treino C - Costas e Abdomen</th>";
+                                        echo "<th colspan='3'>Treino D - Ombros</th>";
+                                        echo "<th colspan='3'>Treino E - Braços</th>";
+                                    } else if ($sexoUsuario === "feminino") {
+                                        echo "<th colspan='3'>Treino A - Quadriceps e Panturrilhas</th>";
+                                        echo "<th colspan='3'>Treino B - Peito, Ombros e Biceps</th>";
+                                        echo "<th colspan='3'>Treino C - Posterior de coxa e Panturrilhas</th>";
+                                        echo "<th colspan='3'>Treino D - Costas, Tríceps, Abdômen</th>";
+                                        echo "<th colspan='3'>Treino E - Glúteos e Abdômen</th>";
+                                    }
                                     break;
                                 default:
                                     echo "<th colspan='3'></th>";

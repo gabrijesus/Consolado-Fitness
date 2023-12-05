@@ -9,19 +9,81 @@
 .login {
     display: flex;
     flex-direction: column;
-}
-
-.login label {
-    
+    width: 100%;
+    max-width: 100%;
 }
 
 .login input {
-    width: 90vw;
-    height: 3vh;
-    border-radius: 20px;
+    width: 97%;
+    height: 4vh;
+    border-radius: 10px;
     margin: 0 auto;
+    color: #000;
+    padding: .5rem;
 }
 
 .img_desktop {
     display: none;
+}
+
+.login button {
+    width: 100%;
+    background-color: var(--color-orange);
+    height: 6vh;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: .5rem;
+    border-radius: 10px;
+}
+
+.img_login {
+    display: none;
+    visibility: hidden;
+}
+
+form {
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90vh;
+    justify-content: space-between;
+}
+
+.form_container {
+    max-width: 100%;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.form_container_2 {
+    display: flex;
+    width: inherit;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (min-width: 1000px) {
+    .img_login {
+        display: block;
+        width: 50vw;
+        height: 100vh;
+        visibility: visible;
+    }
+
+    .login a, label, input {
+        font-size: 20px;
+    }
+
+    .form_container {
+        justify-content: space-between;
+    }
+    
+    form {
+        width: 40vw;
+    }
 }

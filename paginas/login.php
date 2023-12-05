@@ -9,7 +9,6 @@ if (isset($_SESSION['id_usuario'])) {
 include "../utils/conexao.php";
 include "../utils/queriesSql.php";
 
-
 $erro = '';
 
 // Verifique se o formulário foi enviado
@@ -57,9 +56,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Feche a conexão com o banco de dados
 $conn->close();
 ?>
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
@@ -72,27 +70,31 @@ $conn->close();
 </head>
 
 <body>
-    <div>
-        <img src="../imagens/login.png" alt="login">
-        <form action="" method="POST">
-            <?php if ($erro != '') : ?>
-                <p style="color: red;"><?php echo $erro; ?></p>
-            <?php endif; ?>
+    <div class="form_container">
+        <div class="form_container_2">
+            <form action="" method="POST">
+                <img src="../imagens/login.png" alt="login">
+                <?php if ($erro != '') : ?>
+                    <p style="color: red;"><?php echo $erro; ?></p>
+                <?php endif; ?>
 
-            <div class="login">
-                <label for="">Email</label>
-                <input type="email" name="email" id="email">
-            </div>
+                <div class="login">
+                    <label for="">Email</label>
+                    <input type="email" name="email" id="email">
+                </div>
 
-            <div class="login">
-                <label for="">Senha</label>
-                <input type="password" name="senha" id="senha">
-            </div>
+                <div class="login">
+                    <label for="">Senha</label>
+                    <input type="password" name="senha" id="senha">
+                </div>
 
-            <div class="login">
-                <button type="submit">Entrar</button>
-            </div>
-        </form>
+                <div class="login">
+                    <button type="submit">Entrar</button>
+                    <a href="cadastro.php">Não possui conta? Cadastre-se já!</a>
+                </div>
+            </form>
+        </div>
+        <img class="img_login" src="../imagens/loginAcademia.svg" alt="Imagem de login">
     </div>
 </body>
 
